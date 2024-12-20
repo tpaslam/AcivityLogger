@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Activity Tracker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f4f4f4;
+    }
+
+    button {
+      padding: 5px 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .form-container {
+      margin-bottom: 20px;
+    }
+
+    .form-container input {
+      padding: 5px;
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Activity Tracker</h1>
+  <div class="form-container">
+    <input type="text" id="activityName" placeholder="Activity Name" required>
+    <input type="datetime-local" id="activityTime" required>
+    <button onclick="addActivity()">Add Activity</button>
+  </div>
+
+  <table id="activityTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Time</th>
+        <th>Completed</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Dynamic rows will be added here -->
+    </tbody>
+  </table>
+
+  <script>
+    function addActivity() {
+      const nameInput = document.getElementById('activityName');
+      const timeInput = document.getElementById('activityTime');
+
+      const name = nameInput.value.trim();
+      const time = timeInput.value;
+
+      if (!name || !time) {
+        alert('Please provide both activity name and time.');
+        return;
+      }
+
+      const tableBody = document.getElementById('activityTable').querySelector('tbody');
+
+      const newRow = document.createElement('tr');
+
+      newRow.innerHTML = `
+        <td>${name}</td>
+        <td>${new Date(time).toLocaleString()}</td>
+        <td><button onclick="deleteActivity(this)">Complete</button></td>
+      `;
+
+      tableBody.appendChild(newRow);
+
+      // Clear inputs
+      nameInput.value = '';
+      timeInput.value = '';
+    }
+
+    function deleteActivity(button) {
+      const row = button.closest('tr');
+      row.remove();
+    }
+  </script>
+</body>
+</html>
